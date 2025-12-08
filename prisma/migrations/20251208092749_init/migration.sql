@@ -7,6 +7,7 @@ CREATE TABLE "Employee" (
     "name" TEXT NOT NULL,
     "lastName" TEXT NOT NULL,
     "cpf" TEXT NOT NULL,
+    "password" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "Employee_pkey" PRIMARY KEY ("id")

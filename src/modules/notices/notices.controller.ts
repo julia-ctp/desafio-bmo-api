@@ -1,37 +1,35 @@
 import { NextFunction, Request, Response } from "express";
 import { NoticesService } from "./notices.service";
+import {
+  CreateNoticeSchema,
+  GetNoticeSchema,
+  UpdateNoticeSchema,
+} from "./notices.schema";
 
 export class NoticesController {
   private service = new NoticesService();
 
-  async create(req: Request, res: Response) {
-    const employeeId = req.employeeId;
-    const { type, content } = req.body;
-
-    const notice = await this.service.create({
-      employeeId,
-      type,
-      content,
-    });
-
-    return res.status(201).json({
-      message: "Aviso criado com sucesso!",
-      notice,
-    });
+  async create(req: Request, res: Response, next: NextFunction) {
+    try {
+      const employeeId = req.employeeId as string;
+      console.log(employeeId)
+      const data = CreateNoticeSchema.parse({ ...req.body, employeeId });
+      const newNotice = await this.service.create(data);
+      res.status(201).json({ message: "Aviso criado com sucesso!", newNotice });
+    } catch (error) {
+      next(error);
+    }
   }
 
-  async getAll(req: Request, res: Response) {
+  async getAll(_req: Request, res: Response) {
     const notices = await this.service.getAll();
-
     return res.status(200).json(notices);
   }
 
   async getById(req: Request, res: Response, next: NextFunction) {
-    const { id } = req.params;
-
     try {
-      const notice = await this.service.getById(id);
-
+      const data = GetNoticeSchema.parse(req.params);
+      const notice = await this.service.getById(data.id);
       return res.status(200).json(notice);
     } catch (error) {
       next(error);
@@ -39,22 +37,21 @@ export class NoticesController {
   }
 
   async update(req: Request, res: Response, next: NextFunction) {
-    const { id } = req.params;
-    const { type, content } = req.body;
-
     try {
-      const updatedNotice = await this.service.update(id, { type, content });
-      return res.status(200).json(updatedNotice);
+      const data = UpdateNoticeSchema.parse({ ...req.body, ...req.params });
+      const updatedNotice = await this.service.update(data);
+      return res
+        .status(200)
+        .json({ message: "Aviso atualizado com sucesso!", ...updatedNotice });
     } catch (error) {
       next(error);
     }
   }
 
   async delete(req: Request, res: Response, next: NextFunction) {
-    const { id } = req.params;
-
     try {
-      await this.service.delete(id);
+      const notice = GetNoticeSchema.parse(req.params);
+      await this.service.delete(notice.id);
       return res.status(200).json({ message: "Aviso deletado com sucesso!" });
     } catch (error) {
       next(error);

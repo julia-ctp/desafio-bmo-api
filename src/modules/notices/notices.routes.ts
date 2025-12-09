@@ -1,32 +1,42 @@
-import { Router, Request, Response, NextFunction } from "express";
+import { Router, Response, NextFunction } from "express";
 import { NoticesController } from "./notices.controller";
-import { currentEmployee } from "@/src/middlewares/currentEmployee";
+import {
+  authMiddleware,
+  RequestWithEmployee,
+} from "@/src/middlewares/auth.middleware";
 
 export const noticesRouter = Router();
 const controller = new NoticesController();
 
-noticesRouter.post("/notices", currentEmployee, (req: Request, res: Response, next: NextFunction) =>
-  controller.create(req, res, next)
+noticesRouter.post(
+  "/notices",
+  authMiddleware,
+  (req: RequestWithEmployee, res: Response, next: NextFunction) =>
+    controller.create(req, res, next)
 );
 
-noticesRouter.get("/notices", (req: Request, res: Response) =>
-  controller.getAll(req, res)
+noticesRouter.get(
+  "/notices",
+  authMiddleware,
+  (req: RequestWithEmployee, res: Response) =>
+    controller.getAll(req, res)
 );
 
 noticesRouter.get(
   "/notices/:id",
-  (req: Request, res: Response, next: NextFunction) =>
+  authMiddleware,
+  (req: RequestWithEmployee, res: Response, next: NextFunction) =>
     controller.getById(req, res, next)
 );
 
 noticesRouter.put(
   "/notices/:id",
-  (req: Request, res: Response, next: NextFunction) =>
+  authMiddleware, (req: RequestWithEmployee, res: Response, next: NextFunction) =>
     controller.update(req, res, next)
 );
 
 noticesRouter.delete(
   "/notices/:id",
-  (req: Request, res: Response, next: NextFunction) =>
+  authMiddleware, (req: RequestWithEmployee, res: Response, next: NextFunction) =>
     controller.delete(req, res, next)
 );

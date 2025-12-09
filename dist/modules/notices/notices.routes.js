@@ -1,0 +1,10 @@
+import { Router } from "express";
+import { NoticesController } from "./notices.controller";
+import { authMiddleware, } from "@/src/middlewares/auth.middleware";
+export const noticesRouter = Router();
+const controller = new NoticesController();
+noticesRouter.post("/notices", authMiddleware, (req, res, next) => controller.create(req, res, next));
+noticesRouter.get("/notices", authMiddleware, (req, res) => controller.getAll(req, res));
+noticesRouter.get("/notices/:id", authMiddleware, (req, res, next) => controller.getById(req, res, next));
+noticesRouter.put("/notices/:id", authMiddleware, (req, res, next) => controller.update(req, res, next));
+noticesRouter.delete("/notices/:id", authMiddleware, (req, res, next) => controller.delete(req, res, next));

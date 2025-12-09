@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { z, ZodError } from "zod";
 import { Prisma } from "../generated/prisma/client";
+import { AppError } from "../errors/appError";
 
 export function errorHandler(
   error: any,
@@ -36,6 +37,10 @@ export function errorHandler(
     return res.status(400).json({
       error: "JSON inválido",
     });
+  }
+
+  if (error instanceof AppError) {
+    return res.status(error.status).json({ error: error.message });
   }
 
   if (error.status === 404) {

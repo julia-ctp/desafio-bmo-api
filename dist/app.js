@@ -4,14 +4,11 @@ import { errorHandler } from "./middlewares/errorHandler.middleware";
 import { setupSwagger } from "./docs/swagger/swagger";
 import { contactRouter } from "./modules/contact/contact.route";
 import { authRouter } from "./modules/auth/auth.routes";
-
 const app = express();
 app.use(express.json());
-
-app.use(authRouter)
+app.use(authRouter);
 app.use(noticesRouter);
-app.use(contactRouter)
-setupSwagger(app)
+app.use(contactRouter);
+setupSwagger(app);
 app.use(errorHandler);
-
 export default app;

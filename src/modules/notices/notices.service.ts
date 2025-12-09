@@ -1,14 +1,10 @@
-import { NoticeType } from "@/src/generated/prisma/enums";
 import { NoticesRepository } from "./notices.repository";
+import { CreateNoticeInput, UpdateNoticeInput } from "./notices.schema";
 
 export class NoticesService {
   private repo = new NoticesRepository();
 
-  async create(data: {
-    employeeId: string;
-    type: NoticeType;
-    content: string;
-  }) {
+  async create(data: CreateNoticeInput) {
     return this.repo.createNotice(data);
   }
 
@@ -16,33 +12,23 @@ export class NoticesService {
     return this.repo.getAllNotices();
   }
 
-  async getById(id: string) {
+  async getById(id: string ) {
     const notice = await this.repo.getNoticeById(id);
 
     if (!notice) {
-      throw new Error("Aviso não encontrado.");
-    }
+    const error = new Error("Registro não encontrado");
+    (error as any).status = 404; 
+    throw error;
+  }
 
     return notice;
   }
 
-  async update(id: string, data: { type: NoticeType, content: string }) {
-    const targetNotice = await this.repo.getNoticeById(id);
-
-    if (!targetNotice) {
-      throw new Error("Aviso não encontrado");
-    }
-
-    return await this.repo.updateNotice(id, data)
+  async update(data: UpdateNoticeInput) {
+    return await this.repo.updateNotice(data);
   }
 
   async delete(id: string) {
-    const targetNotice = await this.repo.getNoticeById(id);
-
-    if (!targetNotice) {
-      throw new Error("Aviso não encontrado");
-    }
-
     await this.repo.deleteNotice(id);
   }
 }

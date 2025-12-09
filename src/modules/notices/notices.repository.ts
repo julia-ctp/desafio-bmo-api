@@ -1,12 +1,12 @@
 import { NoticeType } from "@/src/generated/prisma/enums";
 import { prisma } from "../../lib/prisma";
+import {
+  CreateNoticeInput,
+  UpdateNoticeInput,
+} from "./notices.schema";
 
 export class NoticesRepository {
-  createNotice(data: {
-    employeeId: string;
-    type: NoticeType;
-    content: string;
-  }) {
+  createNotice(data: CreateNoticeInput) {
     return prisma.notice.create({ data });
   }
 
@@ -24,9 +24,9 @@ export class NoticesRepository {
     });
   }
 
-  updateNotice(id: string, data: { type: NoticeType; content: string }) {
+  updateNotice(data: UpdateNoticeInput) {
     return prisma.notice.update({
-      where: { id },
+      where: { id: data.id },
       data,
     });
   }

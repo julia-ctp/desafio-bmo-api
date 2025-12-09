@@ -1,0 +1,31 @@
+import swaggerUi from "swagger-ui-express";
+import noticeSchemas from "./schemas/notice.schemas";
+import noticesPaths from "./paths/notices.paths";
+const swaggerDocument = {
+    openapi: "3.0.0",
+    info: {
+        title: "Desafio BMO",
+        version: "1.0.0",
+        description: "API de Avisos Internos",
+    },
+    servers: [{ url: "http://localhost:3000", description: "Servidor Local" }],
+    paths: {
+        ...noticesPaths
+    },
+    components: {
+        schemas: {
+            ...noticeSchemas
+        },
+    },
+    securitySchemes: {
+        bearerAuth: {
+            type: "http",
+            scheme: "bearer",
+            bearerFormat: "JWT",
+        },
+    },
+    security: [{ bearerAuth: [] }],
+};
+export function setupSwagger(app) {
+    app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+}

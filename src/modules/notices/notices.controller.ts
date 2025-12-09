@@ -1,18 +1,20 @@
-import { NextFunction, Request, Response } from "express";
+import { NextFunction, Response } from "express";
 import { NoticesService } from "./notices.service";
 import {
   CreateNoticeSchema,
   GetNoticeSchema,
   UpdateNoticeSchema,
 } from "./notices.schema";
+import { RequestWithEmployee } from "@/src/middlewares/auth.middleware";
 
 export class NoticesController {
   private service = new NoticesService();
 
-  async create(req: Request, res: Response, next: NextFunction) {
+  async create(req: RequestWithEmployee, res: Response, next: NextFunction) {
     try {
-      const employeeId = req.employeeId as string;
-      console.log(employeeId)
+      const employeeId = req.employeeId?.id;
+          if (!employeeId) throw new Error("Funcionário não autenticado");
+      
       const data = CreateNoticeSchema.parse({ ...req.body, employeeId });
       const newNotice = await this.service.create(data);
       res.status(201).json({ message: "Aviso criado com sucesso!", newNotice });
@@ -21,12 +23,12 @@ export class NoticesController {
     }
   }
 
-  async getAll(_req: Request, res: Response) {
+  async getAll(_req: RequestWithEmployee, res: Response) {
     const notices = await this.service.getAll();
     return res.status(200).json(notices);
   }
 
-  async getById(req: Request, res: Response, next: NextFunction) {
+  async getById(req: RequestWithEmployee, res: Response, next: NextFunction) {
     try {
       const data = GetNoticeSchema.parse(req.params);
       const notice = await this.service.getById(data.id);
@@ -36,7 +38,7 @@ export class NoticesController {
     }
   }
 
-  async update(req: Request, res: Response, next: NextFunction) {
+  async update(req: RequestWithEmployee, res: Response, next: NextFunction) {
     try {
       const data = UpdateNoticeSchema.parse({ ...req.body, ...req.params });
       const updatedNotice = await this.service.update(data);
@@ -48,7 +50,7 @@ export class NoticesController {
     }
   }
 
-  async delete(req: Request, res: Response, next: NextFunction) {
+  async delete(req: RequestWithEmployee, res: Response, next: NextFunction) {
     try {
       const notice = GetNoticeSchema.parse(req.params);
       await this.service.delete(notice.id);

@@ -1,4 +1,3 @@
-import { NoticeType } from "@/src/generated/prisma/enums";
 import { prisma } from "../../lib/prisma";
 import {
   CreateNoticeInput,

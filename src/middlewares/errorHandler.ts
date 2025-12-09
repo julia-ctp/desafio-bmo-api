@@ -11,7 +11,7 @@ export function errorHandler(
   console.log("Erro:", error);
 
   if (error instanceof ZodError) {
-    res.status(400).json({
+    return res.status(400).json({
       error: "Erro de validação",
       details: z.treeifyError(error),
     });
@@ -24,12 +24,22 @@ export function errorHandler(
         field: error.meta?.target,
       });
     }
+
+    if (error.code === "P2025") {
+      return res.status(404).json({
+        error: "Registro não encontrado",
+      });
+    }
   }
 
   if (error.type === "entity.parse.failed") {
     return res.status(400).json({
       error: "JSON inválido",
     });
+  }
+
+  if (error.status === 404) {
+    return res.status(404).json({ error: error.message });
   }
 
   return res.status(500).json({ error: "Erro interno no servidor" });

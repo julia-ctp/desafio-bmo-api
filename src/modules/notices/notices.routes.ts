@@ -5,8 +5,8 @@ import { currentEmployee } from "@/src/middlewares/currentEmployee";
 export const noticesRouter = Router();
 const controller = new NoticesController();
 
-noticesRouter.post("/notices", currentEmployee, (req: Request, res: Response) =>
-  controller.create(req, res)
+noticesRouter.post("/notices", currentEmployee, (req: Request, res: Response, next: NextFunction) =>
+  controller.create(req, res, next)
 );
 
 noticesRouter.get("/notices", (req: Request, res: Response) =>

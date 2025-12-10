@@ -5,7 +5,7 @@ import {
   GetNoticeSchema,
   UpdateNoticeSchema,
 } from "./notices.schema";
-import { RequestWithEmployee } from "@/src/middlewares/auth.middleware";
+import { RequestWithEmployee } from "@/middlewares/auth.middleware";
 
 export class NoticesController {
   private service = new NoticesService();
@@ -13,8 +13,8 @@ export class NoticesController {
   async create(req: RequestWithEmployee, res: Response, next: NextFunction) {
     try {
       const employeeId = req.employeeId?.id;
-          if (!employeeId) throw new Error("Funcionário não autenticado");
-      
+      if (!employeeId) throw new Error("Funcionário não autenticado");
+
       const data = CreateNoticeSchema.parse({ ...req.body, employeeId });
       const newNotice = await this.service.create(data);
       res.status(201).json({ message: "Aviso criado com sucesso!", newNotice });

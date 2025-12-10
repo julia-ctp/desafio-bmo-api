@@ -4,14 +4,15 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon --exec tsx src/server.ts",
-    "build": "tsc"
+    "dev": "nodemon --exec tsx src/index.ts",
+    "build": "tsc",
+    "start": "ts-node -r tsconfig-paths/register dist/index.js",
+    "postinstall": "prisma generate"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "module",
+  "type": "commonjs",
   "dependencies": {
     "@prisma/adapter-pg": "^7.1.0",
     "@prisma/client": "^7.1.0",
@@ -21,6 +22,7 @@
     "jsonwebtoken": "^9.0.3",
     "pg": "^8.16.3",
     "swagger-ui-express": "^5.0.1",
+    "tsconfig-paths": "^4.2.0",
     "zod": "^4.1.13"
   },
   "devDependencies": {
@@ -33,6 +35,7 @@
     "dotenv": "^17.2.3",
     "nodemon": "^3.1.11",
     "prisma": "^7.1.0",
+    "ts-node": "^10.9.2",
     "tsx": "^4.21.0",
     "typescript": "^5.9.3"
   }

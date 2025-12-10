@@ -3,7 +3,7 @@ import { NoticesController } from "./notices.controller";
 import {
   authMiddleware,
   RequestWithEmployee,
-} from "@/src/middlewares/auth.middleware";
+} from "@/middlewares/auth.middleware";
 
 export const noticesRouter = Router();
 const controller = new NoticesController();
@@ -18,8 +18,7 @@ noticesRouter.post(
 noticesRouter.get(
   "/notices",
   authMiddleware,
-  (req: RequestWithEmployee, res: Response) =>
-    controller.getAll(req, res)
+  (req: RequestWithEmployee, res: Response) => controller.getAll(req, res)
 );
 
 noticesRouter.get(
@@ -31,12 +30,14 @@ noticesRouter.get(
 
 noticesRouter.put(
   "/notices/:id",
-  authMiddleware, (req: RequestWithEmployee, res: Response, next: NextFunction) =>
+  authMiddleware,
+  (req: RequestWithEmployee, res: Response, next: NextFunction) =>
     controller.update(req, res, next)
 );
 
 noticesRouter.delete(
   "/notices/:id",
-  authMiddleware, (req: RequestWithEmployee, res: Response, next: NextFunction) =>
+  authMiddleware,
+  (req: RequestWithEmployee, res: Response, next: NextFunction) =>
     controller.delete(req, res, next)
 );

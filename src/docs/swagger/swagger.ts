@@ -4,6 +4,8 @@ import noticeSchemas from "./schemas/notice.schemas";
 import noticesPaths from "./paths/notices.paths";
 import contactSchemas from "./schemas/contact.schemas";
 import contactPaths from "./paths/contact.paths";
+import authSchemas from "./schemas/auth.schemas";
+import authPaths from "./paths/auth.paths";
 
 const swaggerDocument = {
   openapi: "3.0.0",
@@ -16,11 +18,13 @@ const swaggerDocument = {
   paths: {
     ...noticesPaths,
     ...contactPaths,
+    ...authPaths,
   },
   components: {
     schemas: {
       ...noticeSchemas,
       ...contactSchemas,
+      ...authSchemas,
     },
   },
   securitySchemes: {

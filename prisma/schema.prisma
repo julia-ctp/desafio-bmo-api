@@ -44,8 +44,8 @@ enum NoticeType {
 model Contact {
   id String @id @default(cuid())
   name String
-  email String @unique
-  phone String @unique
+  email String
+  phone String 
   message String
   createdAt DateTime @default(now())
 }

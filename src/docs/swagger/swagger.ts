@@ -2,6 +2,8 @@ import swaggerUi from "swagger-ui-express";
 import { Express } from "express";
 import noticeSchemas from "./schemas/notice.schemas";
 import noticesPaths from "./paths/notices.paths";
+import contactSchemas from "./schemas/contact.schemas";
+import contactPaths from "./paths/contact.paths";
 
 const swaggerDocument = {
   openapi: "3.0.0",
@@ -12,11 +14,13 @@ const swaggerDocument = {
   },
   servers: [{ url: "http://localhost:3000", description: "Servidor Local" }],
   paths: {
-    ...noticesPaths
+    ...noticesPaths,
+    ...contactPaths,
   },
   components: {
     schemas: {
-      ...noticeSchemas
+      ...noticeSchemas,
+      ...contactSchemas,
     },
   },
   securitySchemes: {

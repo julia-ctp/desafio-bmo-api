@@ -1,8 +1,8 @@
-import { AppError } from "@/errors/appError";
 import { AuthRepository } from "./auth.repository";
 import { AuthInput } from "./auth.schema";
 import bcrypt from "bcrypt";
-import { generateToken, LoginPayload } from "@/utils/jwt.utils";
+import { generateToken, LoginPayload } from "@/src/utils/jwt.utils";
+import { AppError } from "@/src/errors/appError";
 
 export class AuthService {
   private repo = new AuthRepository();

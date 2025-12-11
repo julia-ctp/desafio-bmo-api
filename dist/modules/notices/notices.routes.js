@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { NoticesController } from "./notices.controller";
-import { authMiddleware, } from "@/middlewares/auth.middleware";
+import { authMiddleware, } from "@/src/middlewares/auth.middleware";
 export const noticesRouter = Router();
 const controller = new NoticesController();
 noticesRouter.post("/notices", authMiddleware, (req, res, next) => controller.create(req, res, next));

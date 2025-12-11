@@ -1,5 +1,3 @@
-import "dotenv/config";
-
 import express from "express";
 import cors from "cors";
 import { noticesRouter } from "./modules/notices/notices.routes";
@@ -27,9 +25,3 @@ setupSwagger(app);
 app.use(errorHandler);
 
 export default app;
-
-const PORT = process.env.PORT;
-
-app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
-});

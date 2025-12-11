@@ -1,7 +1,7 @@
-import { AppError } from "@/errors/appError";
 import { AuthRepository } from "./auth.repository";
 import bcrypt from "bcrypt";
-import { generateToken } from "@/utils/jwt.utils";
+import { generateToken } from "@/src/utils/jwt.utils";
+import { AppError } from "@/src/errors/appError";
 export class AuthService {
     repo = new AuthRepository();
     async login({ cpf, password }) {

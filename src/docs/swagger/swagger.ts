@@ -14,27 +14,30 @@ const swaggerDocument = {
     version: "1.0.0",
     description: "API de Avisos Internos",
   },
+
   servers: [{ url: "http://localhost:3000", description: "Servidor Local" }],
+
   paths: {
     ...noticesPaths,
     ...contactPaths,
     ...authPaths,
   },
+
   components: {
     schemas: {
       ...noticeSchemas,
       ...contactSchemas,
       ...authSchemas,
     },
-  },
-  securitySchemes: {
-    bearerAuth: {
-      type: "http",
-      scheme: "bearer",
-      bearerFormat: "JWT",
+
+    securitySchemes: {
+      bearerAuth: {
+        type: "http",
+        scheme: "bearer",
+        bearerFormat: "JWT",
+      },
     },
   },
-  security: [{ bearerAuth: [] }],
 };
 
 export function setupSwagger(app: Express) {

@@ -2,7 +2,8 @@ export default {
   "/contact": {
     post: {
       tags: ["Contact"],
-      description: "Cria um novo contato",
+      summary: "Enviar novo contato",
+      description: "Enviar um novo contato no sistema",
       requestBody: {
         required: true,
         content: {
@@ -12,7 +13,7 @@ export default {
         },
       },
       responses: {
-        200: {
+        201: {
           description: "Contato enviado com sucesso",
           content: {
             "application/json": {

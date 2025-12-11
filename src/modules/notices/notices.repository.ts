@@ -1,8 +1,5 @@
 import { prisma } from "../../lib/prisma";
-import {
-  CreateNoticeInput,
-  UpdateNoticeInput,
-} from "./notices.schema";
+import { CreateNoticeInput, UpdateNoticeInput } from "./notices.schema";
 
 export class NoticesRepository {
   createNotice(data: CreateNoticeInput) {
@@ -12,7 +9,15 @@ export class NoticesRepository {
   getAllNotices() {
     return prisma.notice.findMany({
       orderBy: { createdAt: "desc" },
-      include: { employee: true },
+      include: {
+        employee: {
+          select: {
+            id: true,
+            name: true,
+            lastName: true,
+          },
+        },
+      },
     });
   }
 

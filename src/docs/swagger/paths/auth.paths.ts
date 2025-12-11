@@ -22,7 +22,7 @@ export default {
           },
         },
         400: {
-          description: "Email ou senha inválidos",
+          description: "Cpf ou senha inválidos",
         },
         401: {
           description: "Credenciais inválidas",

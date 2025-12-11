@@ -74,3 +74,7 @@ Na raiz do projeto rode o comando abaixo em seu terminal:
 ```bash
   npm run dev
 ```
+
+## Mais informações
+
+[📄 Documentação das Tabelas](./src/docs/tablesSchemas/tables.md)

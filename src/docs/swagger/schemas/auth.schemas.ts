@@ -6,13 +6,13 @@ const authMainSchemas = {
       cpf: {
         type: "string",
         format: "cpf",
-        example: "999.999.999-99",
+        example: "99999999999",
         description: "cpf do usuário",
       },
       password: {
         type: "string",
         format: "password",
-        example: "senha123",
+        example: "teste123",
         description: "Senha do usuário",
       },
     },

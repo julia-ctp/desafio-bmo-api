@@ -2,10 +2,12 @@ export default {
   "/notices": {
     get: {
       tags: ["Notices"],
-      summary: "Lista todos os avisos",
+      summary: "Listar todos os avisos",
+      description: "Retorna uma lista de todos os avisos cadastrados",
+      security: [{ bearerAuth: [] }],
       responses: {
         200: {
-          description: "Lista de avisos",
+          description: "Lista de avisos obtida com sucesso",
           content: {
             "application/json": {
               schema: {
@@ -15,11 +17,17 @@ export default {
             },
           },
         },
+        401: {
+          description: "Não autorizado",
+        },
       },
     },
+
     post: {
       tags: ["Notices"],
-      summary: "Cria um novo aviso",
+      summary: "Criar novo aviso",
+      description: "Cria um novo aviso no sistema",
+      security: [{ bearerAuth: [] }],
       requestBody: {
         required: true,
         content: {
@@ -31,6 +39,17 @@ export default {
       responses: {
         201: {
           description: "Aviso criado com sucesso",
+          content: {
+            "application/json": {
+              schema: { $ref: "#/components/schemas/Notice" },
+            },
+          },
+        },
+        400: {
+          description: "Dados inválidos",
+        },
+        401: {
+          description: "Não autorizado",
         },
       },
     },
@@ -39,35 +58,52 @@ export default {
   "/notices/{id}": {
     get: {
       tags: ["Notices"],
-      summary: "Busca um aviso por ID",
+      summary: "Obter aviso por ID",
+      description: "Retorna os detalhes de um aviso específico",
+      security: [{ bearerAuth: [] }],
       parameters: [
         {
           name: "id",
           in: "path",
           required: true,
-          schema: { type: "string" },
+          schema: { type: "string", format: "uuid" },
+          description: "ID do aviso",
         },
       ],
       responses: {
         200: {
-          description: "Aviso encontrado",
+          description: "Aviso obtido com sucesso",
+          content: {
+            "application/json": {
+              schema: { $ref: "#/components/schemas/Notice" },
+            },
+          },
         },
-        404: { description: "Aviso não encontrado" },
+        401: {
+          description: "Não autorizado",
+        },
+        404: {
+          description: "Aviso não encontrado",
+        },
       },
     },
+
     put: {
       tags: ["Notices"],
-      summary: "Atualiza um aviso",
+      summary: "Atualizar aviso",
+      description: "Atualiza um aviso existente",
+      security: [{ bearerAuth: [] }],
       parameters: [
         {
           name: "id",
           in: "path",
           required: true,
-          schema: { type: "string" },
+          schema: { type: "string", format: "uuid" },
+          description: "ID do aviso",
         },
       ],
       requestBody: {
-        required: false,
+        required: true,
         content: {
           "application/json": {
             schema: { $ref: "#/components/schemas/UpdateNoticeInput" },
@@ -75,25 +111,50 @@ export default {
         },
       },
       responses: {
-        200: { description: "Aviso atualizado com sucesso" },
-        404: { description: "Aviso não encontrado" },
+        200: {
+          description: "Aviso atualizado com sucesso",
+          content: {
+            "application/json": {
+              schema: { $ref: "#/components/schemas/Notice" },
+            },
+          },
+        },
+        400: {
+          description: "Dados inválidos",
+        },
+        401: {
+          description: "Não autorizado",
+        },
+        404: {
+          description: "Aviso não encontrado",
+        },
       },
     },
 
     delete: {
       tags: ["Notices"],
-      summary: "Deleta um aviso",
+      summary: "Deletar aviso",
+      description: "Remove um aviso do sistema",
+      security: [{ bearerAuth: [] }],
       parameters: [
         {
           name: "id",
           in: "path",
           required: true,
-          schema: { type: "string" },
+          schema: { type: "string", format: "uuid" },
+          description: "ID do aviso",
         },
       ],
       responses: {
-        200: { description: "Aviso deletado com sucesso" },
-        404: { description: "Aviso não encontrado" },
+        204: {
+          description: "Aviso deletado com sucesso",
+        },
+        401: {
+          description: "Não autorizado",
+        },
+        404: {
+          description: "Aviso não encontrado",
+        },
       },
     },
   },

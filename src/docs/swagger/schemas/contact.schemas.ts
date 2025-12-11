@@ -7,7 +7,7 @@ const contactMainSchemas = {
       email: { type: "string", format: "email" },
       phone: { type: "string" },
       message: { type: "string" },
-      createdAt: { type: "string", format: "date-time" }
+      createdAt: { type: "string", format: "date-time" },
     },
   },
 

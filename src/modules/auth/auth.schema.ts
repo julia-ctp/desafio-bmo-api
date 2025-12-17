@@ -5,7 +5,7 @@ export const AuthSchema = z.object({
     .string()
     .length(11, "CPF deve ter 11 digitos")
     .regex(/^\d+$/, "CPF deve conter apenas números"),
-  password: z.string().min(6, "Senha é obrigatória e deve ter pelo menos 6 caracteres"),
+  password: z.string().min(1, "Senha é obrigatória"),
 });
 
 export type AuthInput = z.infer<typeof AuthSchema>

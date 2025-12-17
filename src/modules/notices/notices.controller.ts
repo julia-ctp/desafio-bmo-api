@@ -12,7 +12,7 @@ export class NoticesController {
 
   async create(req: RequestWithEmployee, res: Response, next: NextFunction) {
     try {
-      const employeeId = req.employeeId?.id;
+      const employeeId = req.employee?.id;
           if (!employeeId) throw new Error("Funcionário não autenticado");
       
       const data = CreateNoticeSchema.parse({ ...req.body, employeeId });

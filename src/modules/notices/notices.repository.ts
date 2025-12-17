@@ -24,7 +24,15 @@ export class NoticesRepository {
   getNoticeById(id: string) {
     return prisma.notice.findUnique({
       where: { id },
-      include: { employee: true },
+      include: {
+        employee: {
+          select: {
+            id: true,
+            name: true,
+            lastName: true,
+          },
+        },
+      },
     });
   }
 

@@ -1,5 +1,6 @@
 import jwt, { SignOptions } from "jsonwebtoken";
 import "dotenv/config";
+import { AppError } from "../errors/appError";
 
 const JWT_SECRET = process.env.JWT_SECRET || "secret";
 
@@ -16,13 +17,15 @@ export function generateToken(
   return jwt.sign(payload, JWT_SECRET, { expiresIn });
 }
 
-export function verifyToken(token: string): LoginPayload {
+export function verifyToken(token: string) {
   try {
     return jwt.verify(token, JWT_SECRET) as LoginPayload;
-  } catch (error: any) {
-    if (error.name === "TokenExpiredError") throw new Error("Token expirado");
-    if (error.name === "TokenExpiredError") throw new Error("Token inválido");
+  } catch (error) {
+    if (error instanceof Error) {
+      if (error.name === "TokenExpiredError") throw new AppError("Token expirado", 401);
+      if (error.name === "JsonWebTokenError") throw new AppError("Token inválido", 401);
 
-    throw error;
+      throw error;
+    }
   }
 }

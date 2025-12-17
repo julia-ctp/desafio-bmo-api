@@ -11,7 +11,7 @@ export class ContactController {
       const contact = await this.service.create(data);
 
       return res.status(200).json(contact);
-    } catch (error: any) {
+    } catch (error) {
       next(error);
     }
   }

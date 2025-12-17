@@ -9,8 +9,6 @@ export function errorHandler(
   res: Response,
   _next: NextFunction
 ) {
-  console.log("Erro:", error);
-
   if (error instanceof ZodError) {
     return res.status(400).json({
       error: "Erro de validação",
@@ -18,19 +16,13 @@ export function errorHandler(
     });
   }
 
-  if (error instanceof Prisma.PrismaClientKnownRequestError) {
-    if (error.code === "P2002") {
-      return res.status(409).json({
-        message: "Violação de unicidade",
-        field: error.meta?.target,
-      });
-    }
-
-    if (error.code === "P2025") {
-      return res.status(404).json({
-        error: "Registro não encontrado",
-      });
-    }
+  if (
+    error instanceof Prisma.PrismaClientKnownRequestError &&
+    error.code === "P2025"
+  ) {
+    return res.status(404).json({
+      error: "Registro não encontrado",
+    });
   }
 
   if (error.type === "entity.parse.failed") {
@@ -41,10 +33,6 @@ export function errorHandler(
 
   if (error instanceof AppError) {
     return res.status(error.status).json({ error: error.message });
-  }
-
-  if (error.status === 404) {
-    return res.status(404).json({ error: error.message });
   }
 
   return res.status(500).json({ error: "Erro interno no servidor" });

@@ -4,9 +4,9 @@ const contactMainSchemas = {
     properties: {
       id: {
         type: "string",
-        format: "uuid",
+        format: "cuid",
         description: "Identificador único do contato",
-        example: "550e8400-e29b-41d4-a716-446655440000",
+        example: "cmiz0da2o000104joasxzb8tk",
       },
       name: {
         type: "string",

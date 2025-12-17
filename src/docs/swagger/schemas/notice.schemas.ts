@@ -1,28 +1,27 @@
-const noticeEnumSchema = {
-  NoticeType: {
-    type: "string",
-    enum: ["importante", "informativo", "nenhum"],
-  },
-};
-
-const noticeMainSchemas = {
+const contactMainSchemas =  {
   Notice: {
     type: "object",
     properties: {
       id: {
         type: "string",
-        format: "uuid",
+        format: "cuid",
         description: "Identificador único do aviso",
-        example: "550e8400-e29b-41d4-a716-446655440000",
+        example: "cmjafv2xc0003fvijv6nbdpdg",
       },
-      title: {
+      employeeId: {
         type: "string",
-        description: "Título do aviso",
-        example: "Aviso de Manutenção do Sistema",
+        format: "cuid",
+        description: "ID do funcionário que postou o aviso",
+        example: "cmiz0da2o000104joasxzb8tk",
       },
-      description: {
+      type: {
+        type: { enum: ["importante", "informativo", "nenhum"] },
+        description: "Tipo do aviso",
+        example: "importante",
+      },
+      content: {
         type: "string",
-        description: "Descrição detalhada do aviso",
+        description: "Conteúdo do aviso",
         example:
           "O sistema estará em manutenção no próximo domingo das 22h às 06h",
       },
@@ -45,14 +44,14 @@ const noticeMainSchemas = {
     type: "object",
     required: ["title", "description"],
     properties: {
-      title: {
-        type: "string",
-        description: "Título do aviso",
-        example: "Aviso de Manutenção do Sistema",
+      type: {
+        type: { enum: ["importante", "informativo", "nenhum"] },
+        description: "Tipo do aviso",
+        example: "importante",
       },
-      description: {
+      content: {
         type: "string",
-        description: "Descrição detalhada do aviso",
+        description: "Conteúdo do aviso",
         example:
           "O sistema estará em manutenção no próximo domingo das 22h às 06h",
       },
@@ -62,14 +61,14 @@ const noticeMainSchemas = {
   UpdateNoticeInput: {
     type: "object",
     properties: {
-      title: {
-        type: "string",
-        description: "Título do aviso",
-        example: "Aviso de Manutenção do Sistema",
+      type: {
+        type: { enum: ["importante", "informativo", "nenhum"] },
+        description: "Tipo do aviso",
+        example: "importante",
       },
-      description: {
+      content: {
         type: "string",
-        description: "Descrição detalhada do aviso",
+        description: "Conteúdo do aviso",
         example:
           "O sistema estará em manutenção no próximo domingo das 22h às 06h",
       },
@@ -77,7 +76,4 @@ const noticeMainSchemas = {
   },
 };
 
-export default {
-  ...noticeEnumSchema,
-  ...noticeMainSchemas,
-};
+export default contactMainSchemas;
